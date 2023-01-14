@@ -1,0 +1,30 @@
+body {
+    background-color: black;
+}
+
+#quote-box {
+    background-color: white;
+    padding: 30px;
+}
+
+#quote-box button {
+    color: white;
+    height: 50px;
+    width: 50px;
+}
+
+.rounded-border {
+    border-radius: 10px;
+}
+
+.vertical-center {
+    min-height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+#signature {
+    color: white;
+    text-align: center;
+}

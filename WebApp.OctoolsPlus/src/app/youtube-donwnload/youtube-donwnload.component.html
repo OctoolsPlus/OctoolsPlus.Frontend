@@ -1,0 +1,162 @@
+<main class="main-content  mt-0">
+    <section class="min-vh-100 mb-2">
+        <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('../assets/img/socialmedia.png');">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 text-center mx-auto">
+                        <h1 class="text-white mb-2 mt-5">Bem Vindo</h1>
+                        <p class="text-lead text-white">Faça downalod de vídeos do Youtube gratuito</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row mt-lg-n10 mt-md-n11 mt-n10">
+                <div class="col-md-8 mx-auto">
+                    <div class="card z-index-0">
+                        <div class="card-header text-center pt-4">
+                        </div>
+                        <div class="row px-xl-5 px-sm-4 px-3">
+                            <div class="col-3 ms-auto px-1 mx-auto my-auto">
+                                <a class="btn btn-outline-light w-100" href="javascript:;">
+                                    <svg viewBox="0 0 24 24" width="24" height="24">
+                                        <path fill="#FF0000"
+                                            d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="mt-2 position-relative text-center">
+                                <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
+                                    Entre com o link do vídeo
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form role="form text-left">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" [(ngModel)]="url" [ngModelOptions]="{standalone: true}" placeholder="Cole o link do vídeo" aria-label="Name" aria-describedby="email-addon">
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2" (click)="getDetailsVideo()">Obter detalhes do
+                                        vídeo</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row" *ngIf="load">
+        <div class="container mb-6">
+            <div class="d-flex justify-content-center my-auto">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" *ngIf="videoData && videoData.title !== ''">
+        <div class="row text-center">
+            <div class="col-lg-6 col-sm-6 mb-lg-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-5">
+                                <div class="d-flex flex-column h-100">
+                                    <h5 class="font-weight-bolder" *ngIf="videoData && videoData.title !== undefined">
+                                        {{videoData.title}}</h5>
+                                    <span class="text-left" *ngIf="videoData && videoData.dutation !== ''">Duração:
+                                        {{videoData.dutation}}</span>
+                                    <span class="text-left" *ngIf="videoData && videoData.viewCount !== ''">Visualizações:
+                                        {{videoData.viewCount}}</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-7 ms-auto text-center mt-5 mt-lg-0">
+                                <div>
+                                    <img src="{{videoData.thumbnail}}" alt="thumbnail" style="width: 100%; height: 100%; object-fit: contain;">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Formato</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Qualidade</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Tamanho</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let itens of videoData.formats">
+                                    <tr>
+                                        <td>
+                                            <h6 class="mb-0 text-sm">{{itens.format}}</h6>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-0 text-sm">{{itens.quality}}</h6>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <h6 class="mb-0 text-sm">{{itens.size}}</h6>
+                                        </td>
+                                        <td class="align-middle">
+                                            <button *ngIf="!itens.loading" type="button" class="btn btn-outline-primary" (click)="downloadVideo(videoData.idVideo, itens.format, itens.quality, videoData.title)">Download</button>
+                                            <div *ngIf="itens.loading">
+                                                <div class="container mb-6">
+                                                    <div class="d-flex justify-content-center my-auto">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
+                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                        <span class="text-lg fab fa-dribbble"></span>
+                    </a>
+                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                        <span class="text-lg fab fa-twitter"></span>
+                    </a>
+                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                        <span class="text-lg fab fa-instagram"></span>
+                    </a>
+                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                        <span class="text-lg fab fa-pinterest"></span>
+                    </a>
+                    <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                        <span class="text-lg fab fa-github"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
